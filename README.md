@@ -1,5 +1,7 @@
 ### Comprehensive Report on Football Match Dynamics Tracking System
 
+![image](https://github.com/user-attachments/assets/f5ecdfc9-3b2a-4071-8d04-6167e059bea9)
+
 The **Comprehensive Football Match Dynamics Tracking System** is an advanced computer vision-based project that analyzes football matches by detecting, tracking, and interpreting player and ball movements. This system integrates state-of-the-art models, clustering algorithms, and perspective correction techniques to generate actionable insights from raw video footage. By leveraging a modular design, the system ensures adaptability across various match scenarios and ease of integration into broader analytics frameworks.
 
 This report elaborates on all aspects of the project, covering tools and technologies, methodologies, and outcomes to ensure clarity and understanding for the reader.
@@ -28,12 +30,18 @@ Key objectives include:
 - **Roboflow**: Provided pre-annotated datasets for fine-tuning object detection models.
 
 #### 2.2 Methodology
-The project began with the **DFL Bundesliga Data Shootout Dataset**, which provided high-resolution match footage. While YOLOv8x demonstrated robust detection capabilities, several limitations were identified:
+The project began with the [**DFL Bundesliga Data Shootout Dataset**](https://www.kaggle.com/competitions/dfl-bundesliga-data-shootout/data?select=clips), which provided high-resolution match footage. While YOLOv8x demonstrated robust detection capabilities, several limitations were identified:
+
+![Screenshot 2024-12-19 184713](https://github.com/user-attachments/assets/ee226384-3e71-434a-b7e3-3e85091c5b89)
+
 - Misclassification of spectators and staff as on-pitch objects.
 - Lack of distinction among players, referees, and goalkeepers.
 - Frequent failures in detecting the ball during rapid movements or occlusions.
 
-To overcome these challenges, we fine-tuned the YOLOv5x model using a dataset from Roboflow. This process involved training for 100 epochs with diverse scenarios, enabling the model to:
+To overcome these challenges, we fine-tuned the YOLOv5x model using a dataset from [**Roboflow**](https://universe.roboflow.com/roboflow-jvuqo/football-players-detection-3zvbc/dataset/1). This process involved training for 100 epochs with diverse scenarios, enabling the model to:
+
+![Screenshot 2024-12-20 181037](https://github.com/user-attachments/assets/a3bef4f8-e3f5-4ff1-ae6c-de31dd582386)
+
 - Detect only on-pitch objects, including players, referees, and the ball.
 - Differentiate between referees, goalkeepers, and outfield players.
 - Improve the consistency of ball detection, even during high-speed sequences.
@@ -42,10 +50,22 @@ To overcome these challenges, we fine-tuned the YOLOv5x model using a dataset fr
 - Detection results were passed to the **Supervision** library tracker to assign consistent IDs across frames.
 - A dictionary-based structure stored tracking data for players, referees, and the ball. This ensured smooth frame-to-frame continuity and reliable identification of entities.
 
-#### 2.3 Outcomes
-- Robust detection and tracking of players, referees, and the ball.
-- A reliable framework for integrating additional analytics modules.
+#### 2.3 Visualization of Bounding Boxes and Circles
 
+![Screenshot 2024-12-21 135342](https://github.com/user-attachments/assets/c61807ec-28c0-4d99-b152-66c82e5aefec)
+
+After training the model, bounding boxes for players were replaced with minimalistic circles. The color of the circles, derived through K-Means clustering, matched the team jersey colors. Referees were given yellow circles for clear differentiation. Each circle included the player’s unique index to maintain clarity during playback.
+
+The ball was marked separately with a red triangle placed above its bounding box, enhancing its visibility in dynamic scenarios. This step was implemented to distinguish the ball from other tracked objects effectively.
+
+Later in the project, players in possession of the ball were further marked with a red triangle above their respective circles. This feature allowed for clear visualization of ball possession dynamics, improving analytical insights.
+
+
+#### Outcomes
+- Robust detection and tracking of players, referees, and the ball.
+- Enhanced visual clarity through the replacement of bounding boxes with circles and additional annotations like triangles for possession and ball marking.
+- A reliable framework for integrating additional analytics modules.
+  
 ---
 
 ### 3. Team Color Assignment
